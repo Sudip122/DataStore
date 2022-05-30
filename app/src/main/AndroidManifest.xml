@@ -11,6 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DataStore1">
         <activity android:name="MainActivity" android:exported="true">
+        </activity>
+        <activity
+            android:name=".RecyclerActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
