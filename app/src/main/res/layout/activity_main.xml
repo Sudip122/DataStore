@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DataActivity">
+>
 
     <EditText
         android:id="@+id/etTitle"
@@ -31,4 +31,15 @@
         app:layout_constraintStart_toStartOf="@+id/etTitle"
         app:layout_constraintTop_toBottomOf="@+id/etTitle"
         tools:ignore="TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/btnInsert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="31dp"
+        android:onClick="dbHandler"
+        android:text="insert"
+        app:layout_constraintStart_toStartOf="@+id/etNotes"
+        app:layout_constraintTop_toBottomOf="@+id/etNotes" />
 </androidx.constraintlayout.widget.ConstraintLayout>
