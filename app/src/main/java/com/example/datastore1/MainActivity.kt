@@ -5,11 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.ListView
+import android.widget.SimpleCursorAdapter
+import android.widget.TextView
 import com.example.datastore1.InventoryApplication
 import com.example.datastore1.R
 import com.example.datastore1.data.Item
 import com.example.datastore1.data.ItemDao
 import com.example.datastore1.database.DbAccessObj
+import com.example.datastore1.database.FeedReaderContract
 import com.example.datastore1.database.Note
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -35,7 +39,20 @@ class MainActivity: AppCompatActivity() {
         etNotes = findViewById(R.id.etNotes)
 
     }
-
+    override fun onStart() {
+        super.onStart()
+        var dataCursor = dao.readRows()
+        var from = arrayOf(FeedReaderContract.FeedEntry.COLUMN_NAME_TITLE,
+            FeedReaderContract.FeedEntry.COLUMN_NAME_SUBTITLE)
+        var to = intArrayOf(android.R.id.text1,android.R.id.text2)
+        var adapter = SimpleCursorAdapter(this,
+            android.R.layout.simple_list_item_2, //layout of each row of listview
+            dataCursor, //data
+            from, //names of the columns in db table
+            to) //id's of the textviews in simple_list_item_2 layout
+        var dataListView: ListView = findViewById(R.id.lvDb)
+        dataListView.adapter = adapter
+    }
 
     override fun onPause() {
         super.onPause()
@@ -70,14 +87,17 @@ class MainActivity: AppCompatActivity() {
         etNotes.setText(notes)
     }
     fun dbHandler(view: View) {
-        val item = Item(1,"sugar",40.0,5)
-        when(view.id){
-            R.id.btnInsert ->
-                //insertItem(item)}
-                insertRow()
+        val item = Item(1, "sugar", 40.0, 5)
+        when (view.id) {
+            R.id.btnInsert -> {                insertRow()            }
+            R.id.btnGet -> {getRow()}
         }
     }
-
+    private fun getRow() {
+        var tvDbRow : TextView = findViewById(R.id.tvDbResult)
+        var row = dao.readRow()
+        tvDbRow.setText(row)
+    }
     private fun insertRow() {
         var title = etTitle.text.toString()
         var subTitle = etNotes.text.toString()
